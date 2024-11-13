@@ -7,14 +7,17 @@
     RST 3
     CALL WPROWADZ_LICZBE
     MOV C,H
+    MOV A,C
+    CPI 0
+    JZ POMNOZONO        ;jeśli druga liczba jest równa 0, pomijamy mnożenie (gdybyśmy tego nie zrobili to algorytm mnożenia potraktowałby ją jako 256)
     MVI A,0             ;reset rejestrów A i D
     MVI D,0             
 MNOZENIE 
-    ADD B               ;dodanie mnożnika do akumulatora
+    ADD B               ;dodanie mnożnej do akumulatora
     JC  PRZENIESIENIE   ;skok jeśli wartość w akumulatorze przekroczyła 255
 POWROT_MNOZENIE
-    DCR C               ;zmniejszenie mnożnej o 1
-    JNZ MNOZENIE        ;ponawianie dodawania mnożnika, aż mnożna wyniesie 0
+    DCR C               ;zmniejszenie mnożnika o 1
+    JNZ MNOZENIE        ;ponawianie dodawania mnożnej, aż mnożnik wyniesie 0
     MOV E,A             ;przeniesienie reszty wyniku do rejestru E
     JMP POMNOZONO
 PRZENIESIENIE
